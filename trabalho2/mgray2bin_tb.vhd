@@ -1,7 +1,7 @@
-entity gray2bin_tb is
+entity mgray2bin_tb is
 end entity;
 
-architecture testbench of gray2bin_tb is
+architecture testbench of mgray2bin_tb is
     
     component gray2bin is
         generic (
