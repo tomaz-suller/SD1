@@ -18,7 +18,7 @@ architecture testbench of mgray2bin_tb is
 begin
 
     dut: gray2bin
-        generic map(size => 3)
+        -- generic map(size => 3)
         port map(gray=>g, bin=>b);
     
     tb_process: process
