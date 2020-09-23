@@ -6,8 +6,13 @@ entity gray2bin is
 end entity;
 
 architecture simplified of gray2bin is
+    signal bout2: bit;
+    signal bout1: bit;
 begin
-    bin2 <= gray2;
-    bin1 <= gray1 xor bin2;
-    bin0 <= gray0 xor bin1;
+    bout2 <= gray2;
+    bout1 <= gray1 xor bout2;
+    
+    bin0 <= gray0 xor bout1;
+    bin1 <= bout1;
+    bin2 <= bout2;
 end architecture;
