@@ -34,6 +34,10 @@ begin
         wait for 1 ns;
         assert b = "011" report "Teste 3 falhou!" severity warning;
 
+        g <= "110";
+        wait for 1 ns;
+        assert b = "100" report "Teste 4 falhou!" severity warning;
+
         g <= "100";
         wait for 1 ns;
         assert b = "111" report "Teste 8 falhou!" severity warning;
