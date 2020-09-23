@@ -13,7 +13,7 @@ architecture testbench of mgray2bin_tb is
         );
     end component;
     
-    signal g, b: bit_vector(3 downto 0);
+    signal g, b: bit_vector(2 downto 0);
 
 begin
 
