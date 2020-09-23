@@ -7,7 +7,7 @@ end entity;
 
 architecture simplified of gray2bin is
 begin
-    bin0 <= gray0 xor (gray1 xor gray2);
-    bin1 <= gray1 xor gray2;
     bin2 <= gray2;
+    bin1 <= gray1 xor bin2;
+    bin0 <= gray0 xor bin1;
 end architecture;
