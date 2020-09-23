@@ -18,7 +18,7 @@ architecture testbench of mgray2bin_tb is
 begin
 
     dut: gray2bin
-        generic map(size => 4)
+        generic map(size => 3)
         port map(gray=>g, bin=>b);
     
     tb_process: process
@@ -26,17 +26,17 @@ begin
 
         report "BOT";
 
-        g <= "0011";
+        g <= "001";
         wait for 1 ns;
-        assert b = "0010" report "Teste 2 falhou!" severity warning;
+        assert b = "001" report "Teste 1 falhou!" severity warning;
         
-        g <= "0101";
+        g <= "010";
         wait for 1 ns;
-        assert b = "0110" report "Teste 6 falhou!" severity warning;
+        assert b = "011" report "Teste 3 falhou!" severity warning;
 
-        g <= "1111";
+        g <= "100";
         wait for 1 ns;
-        assert b = "1010" report "Teste 10 falhou!" severity warning;
+        assert b = "111" report "Teste 8 falhou!" severity warning;
 
         report "EOT";
         wait;
