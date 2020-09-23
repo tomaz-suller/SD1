@@ -31,7 +31,6 @@ architecture iterative of gray2bin is
         );
     end component;
 
-    signal outp: bit;
     signal temp: bit_vector(size-1 downto 0);
 
 begin
