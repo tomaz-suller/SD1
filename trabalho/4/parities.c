@@ -11,14 +11,14 @@ int powerOfTwo(int a){
 int main(){
 
     int index = 0;
-    for(int parity = 0; parity < 17; parity *= 2){
+    for(int parity = 1; parity < 17; parity *= 2){
         printf("p%d <= ", parity);
-        for(int i = 0; i < 22; i++, index++){
+        for(int i = 0; i < 22; i++){
             if(! powerOfTwo(i)){
                 int choice = parity & i;
                 if(choice)
                     printf("xor u_data(%d) ", index);
-                //index++;
+                index++;
             }
         }
         index = 0;
