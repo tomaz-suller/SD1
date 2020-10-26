@@ -88,8 +88,8 @@ entity selector is
         data_size: positive := 16
     );
     port(
-        mem_data: out bit_vector(secded_message_size(data_size)-1 downto 0);
-        u_data: in bit_vector(data_size-1 downto 0)
+        mem_data: in bit_vector(secded_message_size(data_size)-1 downto 0);
+        u_data: out bit_vector(data_size-1 downto 0)
     );
 end entity;
 
@@ -108,6 +108,11 @@ begin
 end architecture arch;
 
 --------------------------------------------
+
+library ieee;
+use ieee.numeric_bit.all;
+use ieee.math_real.all;
+use work.computation.all;
 
 entity secded_dec is
     generic(
@@ -152,15 +157,17 @@ architecture arch of secded_dec is
             data_size: positive := 16
         );
         port(
-            mem_data: out bit_vector(secded_message_size(data_size)-1 downto 0);
-            u_data: in bit_vector(data_size-1 downto 0)
+            mem_data: in bit_vector(secded_message_size(data_size)-1 downto 0);
+            u_data: out bit_vector(data_size-1 downto 0)
         );
     end component;
     
-    signal r, c: integer;
-    signal syn_bv: bit_vector(secded_message_size(data_size) - data_size -2);
+    signal r, c, syn: integer;
+    signal syn_bv: bit_vector(secded_message_size(data_size) - data_size -2 downto 0);
     signal parity_matrix: bit_vector( (secded_message_size(data_size)-1)*(secded_message_size(data_size)-1-data_size) - 1 downto 0);
+    signal correct_mem_data: bit_vector(secded_message_size(data_size)-1 downto 0);
     signal overall_parity: bit;
+    signal u_d: bit_vector(data_size-1 downto 0);
 
 begin
 
@@ -177,6 +184,20 @@ begin
         generic map(r, c)
         port map(parity_matrix, mem_data(secded_message_size(data_size)-2 downto 0), syn_bv);
 
+    with syn select uncorrectable_error <=
+        '0' when -1,
+        not overall_parity when others;
 
+    syn <= to_integer(unsigned(syn_bv)) -1;
+
+    correction: for i in secded_message_size(data_size) downto 0 generate
+        correct_mem_data(i) <= not mem_data(i) when i = syn else mem_data(i);
+    end generate;
+
+    selection: selector
+        generic map(data_size)
+        port map(correct_mem_data, u_d);
+    
+    u_data <= u_d;
 
 end arch;
