@@ -31,11 +31,11 @@ begin
     err <= e0 or e1 or e2 or e3 or e4;
     err_bv <= e4 & e3 & e2 & e1 & e0;
     
-    syn <= to_integer(unsigned(err_bv));
+    syn <= to_integer(unsigned(err_bv)) - 1;
     syndrome <= 0;
     
     c: for i in 21 downto 0 generate
-        correct_mem_data(i) <= not mem_data(i) when i = syn-1 else mem_data(i);
+        correct_mem_data(i) <= not mem_data(i) when i = syn else mem_data(i);
     end generate;
 
     u_data(0) <= correct_mem_data(2);
