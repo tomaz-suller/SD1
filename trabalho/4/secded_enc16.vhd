@@ -18,9 +18,9 @@ begin
     p3 <= u_data(4) xor u_data(5) xor u_data(6) xor u_data(7) xor u_data(8) xor u_data(9) xor u_data(10) ;
     -- Posicao 16
     p4 <= u_data(11) xor u_data(12) xor u_data(13) xor u_data(14) xor u_data(15) ;
-    -- Paridade geral
+    -- Paridade geral, posicao 22
     p5 <= u_data(0) xor u_data(1) xor u_data(2) xor u_data(3) xor u_data(4) xor u_data(5) xor u_data(6) xor u_data(7) xor u_data(8) xor u_data(9) xor u_data(10) xor u_data(11) xor u_data(12) xor u_data(13) xor u_data(14) xor u_data(15) xor p0 xor p1 xor p2 xor p3 xor p4;
     
-    mem_data <= p0 & p1 & u_data(0) & p2 & u_data(3 downto 1) & p3 & u_data(10 downto 4) & p4 & u_data(15 downto 11) & p5; 
+    mem_data <= p5 & u_data(15 downto 11) &  p4 & u_data(10 downto 4) & p3 & u_data(3 downto 1) & p2 & u_data(0) & p1 & p0; 
 
 end architecture naive;
