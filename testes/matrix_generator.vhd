@@ -9,7 +9,7 @@ end computation;
 package body computation is
     function secded_message_size(data_size: positive) return integer is
     begin
-        return data_size + 2 + integer( floor(log2(real(data_size))) );
+        return data_size + 2 + integer( floor(log2(real(data_size)+0.1)) );
     end function;
 end computation;
 
