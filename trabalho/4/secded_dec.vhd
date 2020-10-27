@@ -26,7 +26,7 @@ entity matrix_generator is
     );
 
     port(
-        H: out bit_vector( (secded_message_size(data_size)-1)*(secded_message_size(data_size)-1-data_size) - 1 downto 0) 
+        H: out bit_vector( (secded_message_size(data_size)-1)*(secded_message_size(data_size)-data_size-1) - 1 downto 0) 
     );
 end entity;
 
@@ -163,16 +163,18 @@ architecture arch of secded_dec is
     end component;
     
     signal r, c, syn: integer;
-    signal syn_bv: bit_vector(secded_message_size(data_size) - data_size -2 downto 0);
-    signal parity_matrix: bit_vector( (secded_message_size(data_size)-1)*(secded_message_size(data_size)-1-data_size) - 1 downto 0);
+    signal syn_bv: bit_vector(secded_message_size(data_size)-data_size -2 downto 0);
+    -- r-1
+    signal parity_matrix: bit_vector( (secded_message_size(data_size)-1)*(secded_message_size(data_size)-data_size-1) - 1 downto 0);
+    -- r*c -1 
     signal correct_mem_data: bit_vector(secded_message_size(data_size)-1 downto 0);
     signal overall_parity: bit;
     signal u_d: bit_vector(data_size-1 downto 0);
 
 begin
 
-    r <= secded_message_size(data_size) - data_size -1;
-    c <= secded_message_size(data_size) -1;
+    r <= secded_message_size(data_size)-data_size-1;
+    c <= secded_message_size(data_size)-1;
 
     overall_parity <= mem_data( secded_message_size(data_size)-1 );
 
