@@ -168,6 +168,8 @@ architecture arch of secded_dec is
     signal parity_matrix: bit_vector( (secded_message_size(data_size)-1)*(secded_message_size(data_size)-data_size-1) - 1 downto 0);
     -- r*c -1 
     signal correct_mem_data: bit_vector(secded_message_size(data_size)-1 downto 0);
+    -- c-1
+    signal capped_mem: bit_vector(secded_message_size(data_size)-2 downto 0);
     signal overall_parity: bit;
     signal u_d: bit_vector(data_size-1 downto 0);
 
@@ -178,13 +180,15 @@ begin
 
     overall_parity <= mem_data( secded_message_size(data_size)-1 );
 
+    capped_mem <= mem_data( secded_message_size(data_size)-2 downto 0 );
+
     matgen: matrix_generator
         generic map(data_size)
         port map(parity_matrix);
 
     syndrome: matmul
         generic map(r, c)
-        port map(parity_matrix, mem_data(secded_message_size(data_size)-2 downto 0), syn_bv);
+        port map(parity_matrix, capped_mem, syn_bv);
 
     with syn select uncorrectable_error <=
         '0' when -1,
