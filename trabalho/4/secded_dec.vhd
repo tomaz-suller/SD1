@@ -202,6 +202,14 @@ begin
         correct_mem_data(i) <= (not mem_data(i)) when i = syn else mem_data(i);
     end generate;
 
+    prints: process
+    begin
+        wait for 1 ns;
+        report "Syndrome: " & to_bstring(syn_bv);
+        report "Correct mem_data: " & to_bstring(correct_mem_data);
+        wait;
+    end process;
+
     selection: selector
         generic map(data_size)
         port map(correct_mem_data, u_d);

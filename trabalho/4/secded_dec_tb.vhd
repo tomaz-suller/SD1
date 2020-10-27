@@ -37,10 +37,14 @@ begin
         report "BOT";
 
         assert secded_message_size(4) = 8 report "Tamanho falhou!" severity error;
-
-        m_d <= "00101001";
+        
+        m_d <= "01010101";
         wait for 4 ns;
-        report "OUTPUT: " & to_bstring(u_d); 
+        report "OUTPUT 1: " & to_bstring(u_d); 
+
+        m_d <= "01110101";
+        wait for 4 ns;
+        report "OUTPUT 2: " & to_bstring(u_d); 
 
         report "EOT";
         wait;
