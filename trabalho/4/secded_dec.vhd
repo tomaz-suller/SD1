@@ -35,7 +35,7 @@ architecture arch of matrix_generator is
 begin
     l: for i in (secded_message_size(data_size) - data_size - 2) downto 0 generate 
         c: for j in (secded_message_size(data_size)-1) downto 1 generate 
-            H( (secded_message_size(data_size)-1)*i+j-1 ) <= '1' when to_integer(unsigned( ( bit_vector(to_unsigned(integer(2**real(i)), integer(ceil(log2(real(secded_message_size(data_size))))))) and bit_vector(to_unsigned(j, integer(ceil(log2(real(secded_message_size(data_size))))))) ) )) /= 0 else '0';
+            H( (secded_message_size(data_size)-1)*i+j-1 ) <= '1' when to_integer(unsigned( ( bit_vector(to_unsigned(integer(2**real(i)), 64)) and bit_vector(to_unsigned(j, 64)) ) )) /= 0 else '0';
         end generate;
     end generate;
 
@@ -99,7 +99,7 @@ architecture arch of selector is
 
 begin
     s: for i in secded_message_size(data_size)-1 downto 3 generate
-        p: if log2(real(i)) /= floor(log2(real(i))) generate
+        p: if to_integer(to_unsigned(i, 64) and to_unsigned(i-1, 64)) /= 0  generate
             partial( i-2 - integer( floor(log2(real(i))) ) ) <= mem_data(i-1);
         end generate;
     end generate;
@@ -161,6 +161,7 @@ architecture arch of secded_dec is
             u_data: out bit_vector(data_size-1 downto 0)
         );
     end component;
+
     
     signal r, c, syn: integer;
     signal syn_bv: bit_vector(secded_message_size(data_size)-data_size -2 downto 0);
@@ -175,8 +176,8 @@ architecture arch of secded_dec is
 
 begin
 
-    r <= secded_message_size(data_size)-data_size-1;
-    c <= secded_message_size(data_size)-1;
+    -- r <= secded_message_size(data_size)-data_size-1;
+    -- c <= secded_message_size(data_size)-1;
 
     overall_parity <= mem_data( secded_message_size(data_size)-1 );
 
@@ -187,17 +188,18 @@ begin
         port map(parity_matrix);
 
     syndrome: matmul
-        generic map(r, c)
+        generic map(secded_message_size(data_size)-data_size-1, secded_message_size(data_size)-1
+        )
         port map(parity_matrix, capped_mem, syn_bv);
+        
+    syn <= to_integer(unsigned(syn_bv)) -1;
 
     with syn select uncorrectable_error <=
         '0' when -1,
         not overall_parity when others;
 
-    syn <= to_integer(unsigned(syn_bv)) -1;
-
-    correction: for i in secded_message_size(data_size) downto 0 generate
-        correct_mem_data(i) <= not mem_data(i) when i = syn else mem_data(i);
+    correction: for i in secded_message_size(data_size)-1 downto 0 generate
+        correct_mem_data(i) <= (not mem_data(i)) when i = syn else mem_data(i);
     end generate;
 
     selection: selector
