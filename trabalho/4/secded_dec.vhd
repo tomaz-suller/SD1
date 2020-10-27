@@ -9,7 +9,7 @@ end computation;
 package body computation is
     function secded_message_size(data_size: positive) return integer is
     begin
-        return data_size + 2 + integer( floor(log2(real(data_size))) );
+        return data_size + 2 + integer( floor(log2(real(data_size)+0.1)) );
     end function;
 end computation;
 
@@ -63,11 +63,11 @@ begin
     r: for i in rows-1 downto 0 generate
         c: for j in cols-1 downto 0 generate
             first: if j = 0 generate
-                pp(i*cols) <= H(i*cols) and v(0);
+                pp(i*cols) <= H(i*cols) and v(cols-1);
             end generate;
 
             general: if j > 0 generate
-                pp(i*cols + j) <= ( H(i*cols + j) and v(j) ) xor pp(i*cols + j - 1);
+                pp(i*cols + j) <= ( H(i*cols + j) and v( cols-1 - j) ) xor pp(i*cols + j - 1);
             end generate;
             
         end generate;
