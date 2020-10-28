@@ -38,11 +38,11 @@ begin
 
         assert secded_message_size(4) = 8 report "Tamanho falhou!" severity error;
         
-        m_d <= "01010101";
+        m_d <= "11111111";
         wait for 4 ns;
         report "OUTPUT 1: " & to_bstring(u_d); 
 
-        m_d <= "01110101";
+        m_d <= "10111111";
         wait for 4 ns;
         report "OUTPUT 2: " & to_bstring(u_d); 
 
