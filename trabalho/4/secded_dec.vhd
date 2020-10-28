@@ -112,7 +112,9 @@ end architecture arch;
 library ieee;
 use ieee.numeric_bit.all;
 use ieee.math_real.all;
+
 use work.computation.all;
+use work.utils.all;
 
 entity secded_dec is
     generic(
@@ -176,9 +178,6 @@ architecture arch of secded_dec is
 
 begin
 
-    -- r <= secded_message_size(data_size)-data_size-1;
-    -- c <= secded_message_size(data_size)-1;
-
     overall_parity <= mem_data( secded_message_size(data_size)-1 );
 
     capped_mem <= mem_data( secded_message_size(data_size)-2 downto 0 );
@@ -192,14 +191,14 @@ begin
         )
         port map(parity_matrix, capped_mem, syn_bv);
         
-    syn <= to_integer(unsigned(syn_bv)) -1;
+    syn <= to_integer(unsigned(syn_bv));
 
     with syn select uncorrectable_error <=
-        '0' when -1,
+        '0' when 0,
         not overall_parity when others;
 
     correction: for i in secded_message_size(data_size)-1 downto 0 generate
-        correct_mem_data(i) <= (not mem_data(i)) when i = syn else mem_data(i);
+        correct_mem_data(i) <= (not mem_data(i)) when i + syn + 1 = secded_message_size(data_size) else mem_data(i);
     end generate;
 
     prints: process
