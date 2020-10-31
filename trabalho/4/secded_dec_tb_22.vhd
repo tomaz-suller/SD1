@@ -31,18 +31,33 @@ begin
 
     tb: process
     begin
-
         report "BOT";
 
         assert secded_message_size(16) = 22 report "Tamanho falhou!" severity error;
         
-        m_d <= "";
+        m_d <= "0000000000000000000000";
         wait for 4 ns;
-        report "OUTPUT 1: " & to_bstring(u_d); 
+        report "OUTPUT 1: " & to_bstring(u_d) & " Error status: " & to_bstring(u_e); 
 
-        m_d <= "";
+        m_d <= "0000000000000010000000";
         wait for 4 ns;
-        report "OUTPUT 2: " & to_bstring(u_d); 
+        report "OUTPUT 2: " & to_bstring(u_d) & " Error status: " & to_bstring(u_e);
+
+        m_d <= "0000000010000000000000";
+        wait for 4 ns;
+        report "OUTPUT 3: " & to_bstring(u_d) & " Error status: " & to_bstring(u_e); 
+
+        m_d <= "0001000000000000000000";
+        wait for 4 ns;
+        report "OUTPUT 4: " & to_bstring(u_d) & " Error status: " & to_bstring(u_e); 
+
+        m_d <= "0000010000000000000000";
+        wait for 4 ns;
+        report "OUTPUT 5: " & to_bstring(u_d) & " Error status: " & to_bstring(u_e); 
+
+        m_d <= "0000001000000010000000";
+        wait for 4 ns;
+        report "OUTPUT 6: " & to_bstring(u_d) & " Error status: " & to_bstring(u_e); 
 
         report "EOT";
         wait;
