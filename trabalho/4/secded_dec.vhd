@@ -99,7 +99,7 @@ architecture arch of selector is
 
 begin
     s: for i in secded_message_size(data_size)-1 downto 3 generate
-        p: if to_integer(to_unsigned(i, 64) and to_unsigned(i-1, 64)) /= 0  generate
+        p: if to_integer( to_unsigned(i, 64) and to_unsigned(i-1, 64) ) /= 0  generate
             partial( i-2 - integer( floor(log2(real(i))) ) ) <= mem_data(i-1);
         end generate;
     end generate;
@@ -114,7 +114,6 @@ use ieee.numeric_bit.all;
 use ieee.math_real.all;
 
 use work.computation.all;
-use work.utils.all;
 
 entity secded_dec is
     generic(
@@ -165,12 +164,12 @@ architecture arch of secded_dec is
     end component;
 
     
-    signal r, c, syn: integer;
+    signal syn: integer;
     signal syn_bv: bit_vector(secded_message_size(data_size)-data_size -2 downto 0);
     -- r-1
     signal parity_matrix: bit_vector( (secded_message_size(data_size)-1)*(secded_message_size(data_size)-data_size-1) - 1 downto 0);
     -- r*c -1 
-    signal correct_mem_data: bit_vector(secded_message_size(data_size)-1 downto 0);
+    signal partial_xors, correct_mem_data: bit_vector(secded_message_size(data_size)-1 downto 0);
     -- c-1
     signal capped_mem: bit_vector(secded_message_size(data_size)-2 downto 0);
     signal overall_parity: bit;
@@ -197,8 +196,7 @@ begin
     capped_mem <= mem_data( secded_message_size(data_size)-2 downto 0 );
     
     syndrome: matmul
-        generic map(secded_message_size(data_size)-data_size-1, secded_message_size(data_size)-1
-        )
+        generic map(secded_message_size(data_size)-data_size-1, secded_message_size(data_size)-1)
         port map(parity_matrix, capped_mem, syn_bv);
         
     syn <= to_integer(unsigned(syn_bv));
@@ -210,14 +208,6 @@ begin
     correction: for i in secded_message_size(data_size)-1 downto 0 generate
         correct_mem_data(i) <= (not mem_data(i)) when i + syn + 1 = secded_message_size(data_size) else mem_data(i);
     end generate;
-
-    prints: process
-    begin
-        wait for 1 ns;
-        report "Syndrome: " & to_bstring(syn_bv);
-        report "Correct mem_data: " & to_bstring(correct_mem_data);
-        wait;
-    end process;
 
     selection: selector
         generic map(data_size)
