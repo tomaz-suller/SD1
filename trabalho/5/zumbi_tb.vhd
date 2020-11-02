@@ -39,10 +39,10 @@ begin
 
         cases: for i in 0 to vX1'length-1 loop
             x <= vX1(i) & vX0(i);
-            wait for rising_edge(clk);
+            wait until rising_edge(clk);
+            wait for 1 ns;
 
-        
-            assert z = vZ(i);
+            assert z = vZ(i) 
             report "Falhou " & integer'image(i) 
             & " z(esp): " & bit'image(vZ(i)) & " z(rec): "  & bit'image(z)
             severity warning;
