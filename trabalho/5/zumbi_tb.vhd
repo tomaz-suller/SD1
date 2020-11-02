@@ -34,11 +34,10 @@ begin
         simulate <= '1';
         report "BOT";
 
-        x <= "00"; rst <= '1';
-        assert z = 0 report "Reset falhou" severity warning;
+        x <= "00"; rst <= '1'; wait for 1 ns; rst <= '0';
+        assert z = '0' report "Reset falhou" severity warning;
 
-
-        cases: for i in vX1'length-1 downto 0 loop
+        cases: for i in 0 to vX1'length-1 loop
             x <= vX1(i) & vX0(i);
             wait for rising_edge(clk);
 
