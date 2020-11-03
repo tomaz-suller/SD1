@@ -24,7 +24,7 @@ begin
 
     clk <= (simulate and not clk) after clkPeriod/2;
 
-    dut: zumbi port map(clk, rst, x, z);
+    dut: entity work.zumbi(fsm) port map(clk, rst, x, z);
 
     tb: process
         -- Teste do laranja
