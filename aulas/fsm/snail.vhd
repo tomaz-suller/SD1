@@ -41,7 +41,7 @@ begin
     sync: process(clock, reset)
     begin
         if reset = '1' then
-            next_st <= ini;
+            curr_st <= ini;
         elsif rising_edge(clock) then
             curr_st <= next_st;
         end if;
