@@ -28,20 +28,21 @@ begin
 
     tb: process
         -- Teste do laranja
-        --constant vX1: bit_vector := B"0000_1_0_1111"; 
-        --constant vX0: bit_vector := B"0000_0_0_0111";
-        --constant vZ: bit_vector :=  B"0000_1_0_1111";
+        constant vX1: bit_vector := B"0000_1_0_1111"; 
+        constant vX0: bit_vector := B"0000_0_0_0111";
+        constant vZ: bit_vector :=  B"0000_1_0_1111";
 
         -- Teste do verde
-        --constant vX1: bit_vector := B"0000_111111";
-        --constant vX0: bit_vector := B"0000_111111";
-        --constant vZ: bit_vector :=  B"0000_000000";
+        -- constant vX1: bit_vector := B"0000_111111";
+        -- constant vX0: bit_vector := B"0000_111111";
+        -- constant vZ: bit_vector :=  B"0000_000000";
 
         -- Teste do azul
-        constant vX1: bit_vector := B"0000_01_011_000_0111";
-        constant vX0: bit_vector := B"0000_11_111_000_1111";
-        constant vZ: bit_vector :=  B"0000_01_010_000_0101";
-        -- ERRORS                             |       |
+        -- constant vX1: bit_vector := B"0000_01_011_000_0111";
+        -- constant vX0: bit_vector := B"0000_11_111_000_1111";
+        -- constant vZ: bit_vector :=  B"0000_01_010_000_0101";
+        -- structural has NO ERRORS
+        -- fsm has NO ERRORS
 
     begin
         simulate <= '1';
