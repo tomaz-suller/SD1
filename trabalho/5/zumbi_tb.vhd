@@ -53,7 +53,7 @@ begin
         cases: for i in 0 to vX1'length-1 loop
             x <= vX1(i) & vX0(i);
             wait until rising_edge(clk);
-            wait for 1 ns;
+            wait for 0.1 ns;
 
             assert z = vZ(i) 
             report "Falhou " & integer'image(i) 
