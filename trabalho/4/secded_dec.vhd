@@ -177,17 +177,7 @@ architecture arch of secded_dec is
 
 begin
 
-    parity: for i in secded_message_size(data_size)-1 downto 0 generate
-        first: if i = 0 generate
-            partial_xors(0) <= mem_data(0);
-        end generate;
-
-        general: if i > 0 generate
-            partial_xors(i) <= partial_xors(i-1) xor mem_data(i);
-        end generate;
-    end generate;
-
-    overall_parity <= partial_xors( secded_message_size(data_size)-1 );
+    overall_parity <= mem_data( secded_message_size(data_size)-1 );
 
     matgen: matrix_generator
         generic map(data_size)
