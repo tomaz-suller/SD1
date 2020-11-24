@@ -110,7 +110,7 @@ entity div_fd is
         clock: in bit;
         loadA, loadB, clearQ, calcula: in bit;
         A, B: in bit_vector(word_size-1 downto 0);
-        comp: out bit
+        comp: out bit;
         resto, quociente: out bit_vector(word_size-1 downto 0)
     );
 end entity;
@@ -187,7 +187,7 @@ architecture toplevel of divisor is
             clock: in bit;
             loadA, loadB, clearQ, calcula: in bit;
             A, B: in bit_vector(word_size-1 downto 0);
-            comp: out bit
+            comp: out bit;
             resto, quociente: out bit_vector(word_size-1 downto 0)
         );
     end component;

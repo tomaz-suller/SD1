@@ -73,7 +73,7 @@ begin
         if reset = '1' then
             atual <= s0;
         elsif clock'event and clock = '1' then
-            atual <= prox;
+            atual <= proximo;
         end if;
     end process;
 
@@ -109,7 +109,7 @@ entity mult_fd is
         word_size: positive
     );
     port(
-        clock in bit;
+        clock: in bit;
         loadA, loadB, clearR, loadR, enableB: in bit;
         A, B: in bit_vector(word_size-1 downto 0);
         zero: out bit;
@@ -153,7 +153,7 @@ begin
         port map(clock, '0', '0', enableB, ctrlB, '0', inB, outB);
 
     soma <= bit_vector( unsigned(outA) + unsigned(res) );
-    inB <= B when loadB = '1' else bit_vector( unsigned(outB) - 1 )
+    inB <= B when loadB = '1' else bit_vector( unsigned(outB) - 1 );
 
     zg: for i in word_size-1 downto 0 generate
         initial: if i = 0 generate
