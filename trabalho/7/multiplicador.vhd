@@ -55,7 +55,7 @@ end arch;
 
 ------------------------------
 
-entity uc is
+entity mult_uc is
     port(
         clock, reset, vai, zero: in bit;
         pronto: out bit;
@@ -63,7 +63,7 @@ entity uc is
     );
 end entity;
 
-architecture arch of uc is
+architecture arch of mult_uc is
     type estado is (s0, s1, s2, s3, s4);
     signal atual, proximo: estado;
 begin
@@ -104,7 +104,7 @@ end arch;
 library ieee;
 use ieee.numeric_bit.all;
 
-entity fd is
+entity mult_fd is
     generic(
         word_size: positive
     );
@@ -117,7 +117,7 @@ entity fd is
     );
 end entity;
 
-architecture arch of fd is
+architecture arch of mult_fd is
 
     component registrador_universal is
         generic (
@@ -186,7 +186,7 @@ end entity;
 
 architecture toplevel of multiplicador is
     
-    component uc is
+    component mult_uc is
         port(
             clock, reset, vai, zero: in bit;
             pronto: out bit;
@@ -194,12 +194,12 @@ architecture toplevel of multiplicador is
         );
     end component;
 
-    component fd is
+    component mult_fd is
         generic(
             word_size: positive
         );
         port(
-            clock in bit;
+            clock: in bit;
             loadA, loadB, clearR, loadR, enableB: in bit;
             A, B: in bit_vector(word_size-1 downto 0);
             zero: out bit;
@@ -212,9 +212,9 @@ architecture toplevel of multiplicador is
 
 begin
 
-    controle: uc
+    controle: mult_uc
         port map(clock, reset, vai, zero, pronto, loadA, loadB, clearR, loadR, enableB);
-    dados: fd
+    dados: mult_fd
         generic map(word_size)
         port map(clock, loadA, loadB, clearR, loadR, enableB, A, B, zero, resultado);
 

@@ -55,14 +55,14 @@ end arch;
 
 ------------------------------
 
-entity uc is
+entity div_uc is
     port(
         clock, reset, vai, comp: in bit;
         loadA, loadB, clearQ, calcula, pronto: out bit
     );
 end entity;
 
-architecture arch of uc is
+architecture arch of div_uc is
     type estado is (init, carrega, inter, subtrai, fim);
     signal atual, proximo: estado; 
 begin
@@ -99,7 +99,10 @@ end arch;
 
 ------------------------------
 
-entity fd is
+library ieee;
+use ieee.numeric_bit.all;
+
+entity div_fd is
     generic(
         word_size: positive
     );
@@ -112,7 +115,7 @@ entity fd is
     );
 end entity;
 
-architecture arch of fd is
+architecture arch of div_fd is
     
     component registrador_universal is
         generic (
@@ -169,14 +172,14 @@ end entity;
 
 architecture toplevel of divisor is
 
-    component uc is
+    component div_uc is
         port(
             clock, reset, vai, comp: in bit;
             loadA, loadB, clearQ, calcula, pronto: out bit
         );
     end component;
 
-    component fd is
+    component div_fd is
         generic(
             word_size: positive
         );
@@ -193,9 +196,9 @@ architecture toplevel of divisor is
 
 begin
 
-    controle: uc
+    controle: div_uc
         port map(clock, reset, vai, comp, loadA, loadB, clearQ, calcula, pronto);
-    dados: fd
+    dados: div_fd
         generic map(word_size)
         port map(clock, loadA, loadB, clearQ, calcula, A, B, comp, resto, resultado);
 
