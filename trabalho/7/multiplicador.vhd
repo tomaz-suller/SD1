@@ -80,8 +80,9 @@ begin
     proximo <=
         s1 when atual = s0 and vai = '1'    else
         s2 when atual = s1                  else 
+        s2 when atual = s3                  else
         s3 when atual = s2 and zero = '0'   else
-        s4 when atual = s3 and zero = '1'   else
+        s4 when atual = s2 and zero = '1'   else
         s0;
 
     loadA <= '1' when atual = s1 
