@@ -151,7 +151,7 @@ begin
         port map(clock, clearR, '0', '1', ctrlR, '0', soma, res);
     contB: registrador_universal
         generic map(word_size)
-        port map(clock, '0', '0', enableB, ctrlB, '0', inB, outB);
+        port map(clock, '0', '0', '1', ctrlB, '0', inB, outB);
 
     soma <= bit_vector( unsigned(outA) + unsigned(res) );
     inB <= B when loadB = '1' else bit_vector( unsigned(outB) - 1 );
