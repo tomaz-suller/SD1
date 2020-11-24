@@ -137,13 +137,13 @@ begin
 
     regA: registrador_universal
         generic map(word_size)
-        port map(clock, '0', '0', '1', ctrlA, inA, outA);
+        port map(clock, '0', '0', '1', ctrlA, '0', inA, outA);
     regB: registrador_universal
         generic map(word_size)
-        port map(clock, '0', '0', '1', ctrlB, B, outB);
+        port map(clock, '0', '0', '1', ctrlB, '0', B, outB);
     contQ: registrador_universal
         generic map(word_size)
-        port map(clock, clearQ, '0', calcula, "11", inQ, outQ);
+        port map(clock, clearQ, '0', calcula, "11", '0', inQ, outQ);
 
     ctrlA <= loadA & loadA;
     ctrlB <= loadB & loadB;
