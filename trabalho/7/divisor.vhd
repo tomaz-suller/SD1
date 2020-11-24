@@ -148,11 +148,18 @@ begin
     ctrlA <= loadA & loadA;
     ctrlB <= loadB & loadB;
 
-    inA <= A when calcula = '0' else bit_vector( unsigned(A) - unsigned(B) )
-    resto <= outA;
-    comp <= ( unsigned(A) >= unsigned(B) );
+    inA <= A when calcula = '0' else bit_vector( unsigned(outA) - unsigned(B) );
+    process(outA, outB)
+    begin
+        comp <= '0';
+        if unsigned(outA) >= unsigned(outB) then
+            comp <= '1';
+        end if;
+    end process;
     inQ <= bit_vector( unsigned(outQ) + 1 );
-
+            
+    resto <= outA;
+    quociente <= outQ;
 
 end arch;
 
@@ -192,7 +199,7 @@ architecture toplevel of divisor is
         );
     end component;
 
-    signal comp, loadA, loadB, clearQ, calcula, pronto: bit;
+    signal comp, loadA, loadB, clearQ, calcula: bit;
 
 begin
 
