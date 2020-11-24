@@ -156,17 +156,13 @@ begin
     soma <= bit_vector( unsigned(outA) + unsigned(res) );
     inB <= B when loadB = '1' else bit_vector( unsigned(outB) - 1 );
 
-    zg: for i in word_size-1 downto 0 generate
-        initial: if i = 0 generate
-            zero_p(0) <= outB(0);
-        end generate;
-
-        general: if i /= 0 generate
-            zero_p(i) <= zero_p(i-1) nand outB(i);
-        end generate;
-    end generate;
-
-    zero <= zero_p(word_size-1);
+    process(outB)
+    begin
+        zero <= '0';
+        if unsigned(outB) = 0 then
+            zero <= '1';
+        end if;
+    end process;
     resultado <= res;
 
 end arch;
