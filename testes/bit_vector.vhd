@@ -16,17 +16,11 @@ architecture arch of bv is
     function extend(bit_v:bit_vector; bi: bit) return bit_vector is
         variable tmp: bit_vector(31 downto 0) := (others => bi);
     begin
-        for i in bit_v'range loop
-            tmp(i) := bit_v(i);
-        end loop;
+        tmp(bit_v'length-1 downto 0) := bit_v;
         return tmp;
     end function;
 
-    constant hex: string := ;
-
 begin
-    hex <= "e48c";
     C <= A and B;
-    D <= extend(A, '1');
-    E(15 downto 0) <= to_bitvector(hex);
+    D <= extend("0001"&"00", '0');
 end arch;
