@@ -1,0 +1,5 @@
+*.cf
+*.out
+*.vcd
+*.ghw
+*.gtk
